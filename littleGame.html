@@ -28,18 +28,37 @@
         margin: auto 10px;
       }
     */
+    .title{
+      margin: 25px auto;
+      width: 500px; 
+      text-align: center;
+    }
+    .board{
+      margin: 10px auto;
+      width: 500px; 
+      text-align: center;
+    }
     </style>
    
   </head>
   <body id="content">
-    <h1 style="margin: 25px auto; width: 500px; text-align: center;">
-      Click me to create rainbow colors
-    </h1>
+    <div class="title">
+      <h1 >
+        找出不一樣的顏色
+      </h1>  
+    </div>
+    <div class="board">
+      <div class="time">
+        剩餘時間:<p id=timeleft></p>
+      </div>
+      <div class="point">
+        分數:<p id="point"></p>  
+      </div>
+    </div>
     <div id="colors"></div>
 
     <p style="margin: 12px auto; width: 450px; text-align: center;">
       <button id="clickMe" onclick="initialize();">Click me</button>
-      <button id="restoreAll" onclick="restorAll();">Restore all</button>
     </p>
 
     

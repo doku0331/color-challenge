@@ -1,5 +1,15 @@
-      var num = 9;
+      var num = 4;
       
+      var rgbColors = [
+        [255, 0, 0],    // Red
+        [255, 127, 0],  // Orange
+        [255, 255, 0],  // Yellow
+        [0, 255, 0],    // Green
+        [0, 0, 255],    // Blue
+        [75, 0, 130],   // Indigo
+        [148, 0, 211]   // Violet
+      ];
+
       function getRandomnum(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -11,21 +21,31 @@
         var blocks = "", colorBk;
         var answerI= getRandomnum(0,num);
         var answerJ=getRandomnum(0,num)
-        var randRed =getRandomnum(0,256);
-        var randGreen =getRandomnum(0,256);
-        var randBlue =getRandomnum(0,256);
+        var randColor =getRandomnum(0,6);
+        var red, green, blue, r, g, b, incR, incG, incB;
+
         for (var i = 0, len = num; i < len; i++) {
-            //新建外層 div, 包覆 n 個 colorBlocks
-          var classname = "colorRow rbc" + i;
-          blocks += '<div class="' + classname + '">'; // starting div;
+          r = rgbColors[randColor][0]; 
+          g = rgbColors[randColor][1];
+          b = rgbColors[randColor][2];
+          incR = Math.floor((255 - r) / Math.floor(num/2));
+          incG = Math.floor((255 - g) / Math.floor(num/2));
+          incB = Math.floor((255 - b) / Math.floor(num/2));
+         
 
           for (var j = 0; j < num; j++) {
+            
             colorBk = '<div class="colorBlock"'+' style="background-color: rgb(' + 
-           randRed + ',' + randGreen + ',' + randBlue + ')"></div>'
+              r + ',' + g + ',' + b + ')"></div>'
             if(i==answerI && j==answerJ){
-                colorBk = '<div class="colorBlock" style="background-color: rgb(' + 
-                0 + ',' + 0 + ',' + 0 + ')"></div>'
-                                    
+                if (getRandomnum(0,2)){
+                  colorBk = '<div class="colorBlock ans" style="background-color: rgb(' + 
+                  (r+incR) + ',' + (g+incG) + ',' + (b+incB) + ')"></div>'
+                }
+                else{
+                  colorBk = '<div class="colorBlock ans" style="background-color: rgb(' + 
+                  (r-incR) + ',' + (g-incG) + ',' + (b-incB) + ')"></div>'  
+                }                    
             }
             blocks += colorBk;
           }
@@ -43,33 +63,20 @@
 
       function initialize() {
         createRainbowBlocks(); // 生成彩色球
-        var x = document.getElementsByClassName("colorBlock");
+        var x = document.getElementsByClassName("ans");
         for (i = 0; i < x.length; i++) {
-          x[i].addEventListener("mousedown", highLightRow);
-          x[i].addEventListener("mouseup", hideRow);
+          x[i].addEventListener("mousedown", getPoint);
+        }
+      }
+      var point=0;
+      function getPoint(event) {
+        initialize();
+        point++;
+        if (point%3==0&&num<8){
+          num++;
         }
       }
 
-      function highLightRow(event) {
-        var element = event.target;
-        // alert(parent.className);
-        element.style.border = "3px solid black";
-      }
-
-      function hideRow(event) {
-        var element = event.target;
-        var parent = element.parentElement;
-        element.style.border = "";     // 上層隱藏時，先將border恢復正常
-        parent.style.display = "none";
-      }
-
-      function restorAll() {
-        var elems = document.querySelectorAll("[class*=Row]");
-        //var elems = document.querySelectorAll("[class*=color]");
-        for (var i = 0; i < elems.length; i++) {
-          elems[i].style.display = "";        // 恢復隱藏的列
-        }
-      }
       
       window.onload=function(){
         alert("歡迎來到色彩大挑戰遊戲");
